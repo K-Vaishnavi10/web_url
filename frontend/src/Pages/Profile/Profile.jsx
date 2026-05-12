@@ -4,22 +4,22 @@ import {Center, Loader, Card, Stack, Avatar, Title, Text} from "@mantine/core";
 
 export default function Profile() {
     const[user, setUser] = useState(null);
-    useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                const res = await axios.get(
-                "https://url-shortener-bootcamp.onrender.com/api/user/me",
-                {
-                    withCredentials: true,
-                }
-                );
-
-                console.log(res.data);
-                setUser(res.data);
-            } catch (error) {
-                console.error(error);
+    const fetchProfile = async () => {
+        try {
+            const res = await axios.get(
+            "https://url-shortener-bootcamp.onrender.com/api/user/me",
+            {
+                withCredentials: true,
             }
-        };
+            );
+
+            console.log(res.data);
+            setUser(res.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    useEffect(() => {
 
         fetchProfile();
     }, []);
@@ -28,13 +28,21 @@ export default function Profile() {
   return (
     <Center mt={50}>
         <Stack align="center">
-          <Avatar src={user?.avatar} radius="xl"size={100} />
+            <Avatar src={user?.avatar} size={100} radius="xl"/>
 
-          <Title> {user?.name} </Title>
+            <Title> {user?.name} </Title>
 
-          <Text> {user?.email} </Text>
+            <Text c="blue">{user?.email}</Text>
+            <Text>
+            <Text span fw={700}>User ID:</Text> {user?._id}
+            </Text>
 
-          <Text> User ID:{user?._id} </Text>
+            <Text>
+            <Text span fw={700}>Account Created:</Text>{" "}
+            {new Date(user?.createdAt).toLocaleDateString()}
+            </Text>
+
+          
         </Stack>
     </Center>
   );
